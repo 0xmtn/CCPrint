@@ -5,6 +5,6 @@ SERVER=$2
 USERNAME=$3
 
 ssh-keygen
-cat ~/.ssh/id_rsa.pub | ssh $USERNAME@$SERVER 'cat >> .ssh/authorized_keys && echo "Key copied"'
+cat ~/.ssh/id_rsa.pub | ssh $USERNAME@$SERVER 'sudo cat >> .ssh/authorized_keys && echo "Key copied"'
 scp $FILENAME $USERNAME@$SERVER:
 ssh $USERNAME@$SERVER "lp ${FILENAME}"
