@@ -4,7 +4,13 @@ FILENAME=$1
 SERVER=$2
 USERNAME=$3
 
-ssh-keygen
-cat ~/.ssh/id_rsa.pub | ssh $USERNAME@$SERVER 'cat >> .ssh/authorized_keys && echo "Key copied"'
+grep -i ${USERNAME} keys
+if [[ $? -ne 0 ]]; then
+    echo "sdg"
+    ssh-keygen
+    cat ~/.ssh/id_rsa.pub | ssh $USERNAME@$SERVER 'cat >> .ssh/authorized_keys && echo "Key copied"'
+    echo $USERNAME >> keys
+fi
+
 scp $FILENAME $USERNAME@$SERVER:
-ssh $USERNAME@$SERVER "lp ${FILENAME}"
+ssh $USERNAME@$SERVER "lp ${FILENAME}; rm ${FILENAME}"
